@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 이 위치면 에러 남
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	 -->
+	<!-- 1. 디비정보 가지고 있는 dbconn.properties 파일 와이어링 -->
+	<properties resource="config/dbconn.properties"></properties>
+	<!-- 
+		Oracle 벤더인 경우 null값을 허용하지 않는 것으로 기본 세팅이 잡혀져있다.
+		옵션을 추가해줘야 null값 허용 가능하다.
+		settings 태그의 위치도 주의...반드시 properties 태그 다음에 작성
+		
+		MySQL 벤더는 옵션 부여하지 않아도 null값 허용한다.
+	 -->
+	<settings>
+		<!-- <setting name="jdbcTypeForNull" value="NULL"/> -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+
+	<!-- 2. 디비 하나의 row를 인스턴스화 시킨 클래스...vo -->	
+	<typeAliases>
+		<package name="ibatis.services.domain"/><!-- vo alias를 lowerCamelCase로 -->
+	</typeAliases>
+	
+	<!-- 3. JDBC 세팅 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="${jdbc.mysql.driver}"/>
+				<property name="url" value="${jdbc.mysql.url}"/>
+				<property name="username" value="${jdbc.mysql.username}"/>
+				<property name="password" value="${jdbc.mysql.password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+ 	
+ 	<mappers>
+ 		<mapper resource="sql/mybatis-userservice-mapping.xml"/>
+ 		<mapper resource="sql/mybatis-userservice-mapping01.xml"/>
+ 		<mapper resource="sql/mybatis-userservice-mapping02.xml"/>
+ 		<mapper resource="sql/mybatis-userservice-mapping03.xml"/>
+ 		<mapper resource="sql/mybatis-userservice-mapping05.xml"/>
+ 		<mapper resource="sql/mybatis-userservice-mapping07.xml"/>
+ 		<mapper resource="sql/mybatis-userservice-mapping08.xml"/>
+ 		<mapper resource="sql/mybatis-userservice-mapping101.xml"/>
+ 	</mappers>
+</configuration>

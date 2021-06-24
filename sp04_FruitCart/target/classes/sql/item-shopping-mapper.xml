@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ItemMapper">
+
+	<!-- 
+	1. ResultMap :: selectRM(id)
+	2. sql구문의 재사용성 사용
+	3. getItemList, getItem(특정한 아이디를 포함하는 기능...와일드카드 사용)
+	-->
+	
+	<resultMap type="item" id="selectRM">
+		<id property="itemNumber" column="item_id"/>
+		<result property="name" column="item_name"/>
+		<result property="price" column="price"/>
+		<result property="description" column="description"/>
+		<result property="url" column="picture_url"/>
+		<result property="count" column="count"/>
+	</resultMap>
+	
+	<sql id="select-item">
+		SELECT
+		item_id, item_name, price, description, picture_url, count
+		FROM item
+	</sql>
+	
+	<select id="getItem" parameterType="int" resultMap="selectRM">
+		<include refid="select-item"/>
+		<!-- WHERE item_id LIKE '%' #{VALUE} '%' -->
+		WHERE item_id LIKE '%${value}%'
+	</select>
+	<select id="getItemList" resultMap="selectRM">
+		<include refid="select-item"/>
+	</select>
+	
+</mapper>

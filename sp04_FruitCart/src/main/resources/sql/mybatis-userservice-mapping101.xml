@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 지금까지 배운 모든 것을 여기 한 곳에 총 집결
+	1. CRUD
+	2. Dynamic Query
+	3. Static Query
+	4. 쿼리문 재사용
+	5. ResultMap
+	6. LIKE 연산자와 와일드카드(%, _)
+ -->
+<mapper namespace="User10">
+	<!-- SQL 구문의 재사용...id 잘 만들어야 함 -->
+	<sql id="select-users">
+		SELECT
+		user_id, user_name, password, age, grade, reg_date
+		FROM users
+	</sql>
+	<sql id="orderby-userid-desc">
+		ORDER BY user_id DESC
+	</sql>
+	
+	<insert id="addUser" parameterType="user">
+		INSERT
+		INTO users
+		(user_id, user_name, password, age, grade, reg_date)
+		VALUES
+		(#{userId}, #{userName}, #{password}, #{age}, #{grade}, curDate())
+	</insert>
+	<update id="updateUser" parameterType="user">
+		UPDATE
+		users
+		SET
+		user_name=#{userName},
+		password=#{password},
+		age=#{age},
+		grade=#{grade},
+		reg_date=#{regDate}
+		WHERE user_id=#{userId}
+	</update>
+	<delete id="removeUser" parameterType="string">
+		DELETE
+		FROM users
+		WHERE user_id=#{VALUE}
+	</delete>
+	
+	<!-- 정적쿼리 -->
+	<select id="getUser" parameterType="user" resultType="user">
+		<include refid="select-users"/>
+		WHERE user_id=#{userId}
+	</select>
+	
+	<select id="getUserList" parameterType="user" resultType="user">
+		<include refid="select-users"/>
+		<where>
+			<if test="userId!=null">
+				user_id LIKE #{userId}
+			</if>
+			<if test="userName!=null">
+				OR user_name LIKE #{userName}
+			</if>
+		</where>
+		<include refid="orderby-userid-desc"/>
+	</select>
+</mapper>
