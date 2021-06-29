@@ -13,6 +13,11 @@
 		<property name="password" value="${JDBC.Password}"/>		
 	</bean>
 	
+	<!-- Transaction 처리 Bean 추가 -->
+	<bean id="" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="configLocation" value="classpath:config/SqlMapConfig.xml"/>
 		<property name="dataSource" ref="dataSource"/>
