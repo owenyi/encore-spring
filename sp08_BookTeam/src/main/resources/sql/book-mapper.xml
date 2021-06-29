@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BookMapper">
+	
+	<sql id="select-book">
+		SELECT
+		author, catalogue, currency, description, isbn, nation, price, publish_date, publisher, title
+		FROM book
+	</sql>
+	<sql id="orderby-isbn-desc">
+		ORDER BY isbn DESC
+	</sql>
+	
+	<insert id="addBook" parameterType="book">
+		INSERT
+		INTO book
+		(author, catalogue, currency, description, isbn, nation, price, publish_date, publisher, title)
+		VALUES
+		(#{author}, #{catalogue}, #{currency}, #{description}, #{isbn}, #{nation}, #{price}, #{publishDate}, #{publisher}, #{title})
+	</insert>
+	
+	<!-- 정적쿼리 -->
+	<select id="findBookByIsbn" parameterType="string" resultType="book">
+		<include refid="select-book"/>
+		WHERE isbn=#{VALUE}
+	</select>
+	
+	<select id="findBooks" parameterType="string" resultType="book">
+		<include refid="select-book"/>
+		<where>
+			<if test="value!=''">
+				title LIKE '%${value}%'
+				OR publisher LIKE '%${value}%'
+			</if>
+		</where>
+		<include refid="orderby-isbn-desc"/>
+	</select>
+	<select id="findBookByTitle" parameterType="string" resultType="book">
+		<include refid="select-book"/>
+		WHERE title LIKE '%${value}%'
+		<include refid="orderby-isbn-desc"/>
+	</select>
+	<select id="findBookByPublisher" parameterType="string" resultType="book">
+		<include refid="select-book"/>
+		WHERE publisher LIKE '%${value}%'
+		<include refid="orderby-isbn-desc"/>
+	</select>
+	
+</mapper>
