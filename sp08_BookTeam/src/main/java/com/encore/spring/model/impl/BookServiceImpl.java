@@ -17,8 +17,8 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	private BookDAO bookDAO;
 	
-	@Transactional
 	@Override
+	@Transactional
 	public void addBook(Book book) throws Exception {
 		bookDAO.addBook(book);
 	}
