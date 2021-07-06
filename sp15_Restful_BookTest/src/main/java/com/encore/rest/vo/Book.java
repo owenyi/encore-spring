@@ -1,4 +1,5 @@
 package com.encore.rest.vo;
+
 import java.io.Serializable;
 
 /**
@@ -9,7 +10,7 @@ import java.io.Serializable;
 public class Book implements Serializable{
 	private String isbn;  
 	private String title;
-	private String catalogue;
+	private String catalogue="";
 	private String nation;
 	private String publishDate;
 	private String publisher;	
@@ -58,21 +59,22 @@ public class Book implements Serializable{
 		setCurrency(currency);
 	}
 
-	public Book(String isbn, String title, String catalogue, String author) {
+	public Book(String isbn, String title, String author,String publisher, String description) {
 		super();
 		setIsbn(isbn);
 		setTitle(title);	
-		setCatalogue( catalogue);
-		setAuthor(author);		
-	}
-	public Book(String isbn, String title, String catalogue, String author, String description) {
-		super();
-		setIsbn(isbn);
-		setTitle(title);
-		setCatalogue( catalogue);
-		setAuthor(author);
+		setAuthor(author);	
+		setPublisher(publisher);
 		setDescription(description);
 	}
+//	public Book(String isbn, String title, String catalogue, String author, String description) {
+//		super();
+//		setIsbn(isbn);
+//		setTitle(title);
+//		setCatalogue( catalogue);
+//		setAuthor(author);
+//		setDescription(description);
+//	}
 	
 	public String getIsbn() {
 		return isbn;
